@@ -1,5 +1,5 @@
 // TODO: Include packages needed for this application
-const generateMardown = require('./utils/generateMarkdown.js');
+const generateMarkdown = require('./utils/generateMarkdown.js');
 const inquirer = require('inquirer');
 const fs = require('fs');
 
@@ -41,7 +41,7 @@ const questions = [
         type: 'list',
         message: 'What licences do you require?',
         name: 'projectLicences',
-        choices: ['Apache 2.0 License', 'ISC License', 'The MIT License']
+        choices: ['Apache 2.0 License', 'ISC License', 'The MIT License', 'No License']
       }
     ,{
         type: 'input',
@@ -57,7 +57,7 @@ const questions = [
 
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {
-    fs.writeFile(fileName, JSON.stringify(data, null, '\t'), (err) =>
+    fs.writeFile(fileName, data, (err) =>
       err ? console.log(err) : console.log('Success!')
     );
 }
@@ -67,8 +67,7 @@ function init() {
     inquirer.prompt(questions)
     .then(data => {
         console.log(data);
-       let markdownString = generateMardown(data);
-       writeToFile('./output/readme.md', markdownString);
+       writeToFile('./output/readme.md', generateMarkdown(data));
     })
 }
 
